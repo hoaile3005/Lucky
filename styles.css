@@ -1,0 +1,481 @@
+:root {
+    --size-wheel: 20rem; /* Kích thước tương đối của vòng quay */
+    --christmas-red: #b22222; /* Màu đỏ đậm */
+    --christmas-green: #228b22; /* Màu xanh lá */
+    --gold: #ffd700; /* Màu vàng gold */
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+body{
+	flex-direction: column;
+	background: #f1f1f1;
+}
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.msg {
+	min-height: 4rem;
+	font-family: Arial, Helvetica, sans-serif;
+	margin-top: 0.5rem;
+	text-transform: capitalize;
+}
+
+ul {
+	position: relative;
+	padding: 0;
+	margin: 1rem 0;
+	width: var(--size-wheel);
+	height: var(--size-wheel);
+	border: 10px solid rgb(0, 0, 0);
+	border-radius: 50%;
+	list-style: none;
+	overflow: hidden;
+	transition: cubic-bezier(0.075, 0.8, 0.2, 1) 7s;
+}
+
+span {
+	display: inline-block;
+	position: relative;
+	padding: 0.5rem;
+}
+
+span::before {
+	content: '';
+	position: absolute;
+	top: 0rem;
+	left: 50%;
+	border-left: 1rem solid transparent;
+	border-right: 1rem solid transparent;
+	border-top: 2rem solid rgb(55, 255, 0);
+	z-index: 2;
+	transform: translateX(-50%);
+	animation: arrow ease-out 0.6s infinite;
+}
+
+@keyframes arrow {
+	0% {
+		top: -2rem;
+	}
+	80% {
+		top: 0;
+	}
+	100% {
+		top: -1.5rem;
+	}
+}
+
+span::after {
+	content: '';
+	width: 2rem;
+	height: 2rem;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: rgb(255, 255, 255);
+	border-radius: 50%;
+}
+
+li {
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 50%;
+	height: 50%;
+	transform-origin: 0% 100%;
+}
+
+.text {
+	position: absolute;
+	left: -100%;
+	width: 200%;
+	height: 200%;
+	display: block;
+	text-align: center;
+	padding-top: 1.7rem;
+	font-weight: 600;
+	color: black;
+}
+
+.text > b {
+	display: inline-block;
+	word-break: break-word;
+	max-width: 20%;
+	color: #ffd700; /* Màu vàng gold cho văn bản */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Hiệu ứng bóng chữ */
+}
+
+/* Màu nền và hiệu ứng cho các phần tử bên trong vòng quay */
+.text-1 {
+    background-color: var(--christmas-green); /* Xanh lá cây */
+    color: #fff;
+}
+
+.text-2 {
+    background-color: var(--christmas-red); /* Đỏ đậm */
+    color: #fff;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    max-width: 100vw;
+    max-height: 100vh;
+}
+
+button {
+	display: inline-block;
+    text-align: center;
+    border: 0;
+    background-color: #ff4500; /* Màu đỏ tươi Giáng sinh */
+    color: #fff;
+    font-size: 1.5rem;
+    border-radius: 50px;
+    padding: 0.5rem 2rem;
+    width: auto;
+    cursor: pointer;
+    outline: none;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+/* Hiệu ứng viền sáng nhấp nháy */
+.btn--wheel::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(255, 69, 0, 0) 70%);
+    opacity: 0.5;
+    animation: pulseGlow 2.5s infinite ease-in-out;
+    z-index: -1;
+}
+
+/* Hiệu ứng nhấp nháy mềm cho viền */
+@keyframes pulseGlow {
+    0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+.btn--wheel:hover {
+    background-color: #e63946 !important; /* Đảm bảo áp dụng màu sắc khi hover */
+    box-shadow: 0 0 15px 5px rgba(255, 223, 0, 0.8) !important;
+    transform: scale(1.1) !important;
+}
+
+.btn--wheel:active {
+    transform: scale(0.95) !important;
+    box-shadow: 0 0 10px 3px rgba(255, 223, 0, 0.6) !important;
+}
+
+.popup {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+.popup-content {
+    background-color: #fff;
+    border: 2px solid var(--christmas-green);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+.popup-content h2 {
+	margin-bottom: 1rem;
+	color: var(--christmas-red);
+}
+
+.popup-content .popup-msg {
+	margin-bottom: 1.5rem;
+	color: var(--christmas-green);
+	font-size: 1.2rem;
+}
+
+.close-popup {
+	background-color: #ff4d4d;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	padding: 0.5rem 1rem;
+	cursor: pointer;
+	font-size: 1rem;
+	transition: background-color 0.3s ease;
+}
+
+.close-popup:hover {
+	background-color: #d11a1a;
+}
+/* Cập nhật kiểu dáng vòng quay */
+.wheel {
+    width: var(--size-wheel);
+    height: var(--size-wheel);
+    border: 12px solid var(--gold); /* Viền vàng */
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 25px rgba(255, 0, 0, 0.3), 0 0 35px rgba(0, 128, 0, 0.4);
+    overflow: hidden;
+    transition: transform 7s cubic-bezier(0.075, 0.8, 0.2, 1);
+    position: relative;
+	animation: sparkle 2s infinite ease-in-out;
+	backface-visibility: hidden;
+    will-change: transform;
+    transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1); /* Giúp tạo hiệu ứng quay chậm dần */
+    transition-duration: 7s; /* Điều chỉnh thời gian quay theo yêu cầu */
+}
+
+.logo {
+    width: 100px; /* điều chỉnh kích thước phù hợp */
+    margin-bottom: 9rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+	top: -20px;
+	left: -40px;
+}
+.logo {
+    width: 150px;
+    height: auto;
+	position: fixed;
+	max-width: 150px;
+}
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Đảm bảo background nằm dưới các nội dung khác */
+    background-image: url("./imgs/background.webp"); /* Thay bằng đường dẫn hình ảnh */
+    background-size: cover; /* Để ảnh tự động co giãn phù hợp */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+	transform: translateZ(0);
+}
+@keyframes wave {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-5px);
+    }
+    75% {
+        transform: translateY(5px);
+    }
+}
+
+@keyframes colorPulse {
+    0%, 100% {
+        color: #ffcc00;
+    }
+    50% {
+        color: #ff4500;
+    }
+}
+
+.curved-title {
+    font-size: 5vw; /* Điều chỉnh kích thước theo viewport */
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 0.3vw;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family:  'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #ffcc00;
+    margin-top: 1rem;
+    animation: wave 2s ease-in-out infinite, colorPulse 3s ease-in-out infinite;
+}
+
+/* Giới hạn kích thước font trên màn hình lớn */
+@media (min-width: 768px) {
+    .curved-title {
+        font-size: 6rem; /* Kích thước cố định trên màn hình lớn */
+    }
+}
+
+@media (max-width: 480px) {
+    .curved-title {
+        font-size: 8vw; /* Tăng kích thước trên màn hình nhỏ hơn */
+        letter-spacing: 0.3vw; /* Thu hẹp khoảng cách chữ để vừa với màn hình */
+    }
+}
+.snow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Để không làm gián đoạn các tương tác khác */
+    overflow: hidden; /* Ẩn các hạt tuyết ra ngoài vùng nhìn */
+}
+
+.snowflake {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    pointer-events: none; /* Để không làm gián đoạn các tương tác khác */
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-100px);
+    }
+    100% {
+        transform: translateY(calc(100vh + 100px));
+    }
+}
+.fireworks-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1000; /* Đảm bảo pháo hoa ở trên cùng */
+}
+
+.firework {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: yellow;
+    animation: explode 1s ease-out forwards;
+}
+
+.particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: yellow;
+    opacity: 0.8;
+    animation: particleAnimation 1s ease-out forwards;
+}
+
+@keyframes explode {
+    from { transform: scale(0); }
+    to { transform: scale(1.5); opacity: 0; }
+}
+
+@keyframes particleAnimation {
+    from { transform: translate(0, 0) scale(1); opacity: 1; }
+    to {
+        transform: translate(var(--x), var(--y)) scale(0.5);
+        opacity: 0;
+    }
+}
+
+.form-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-popup-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--christmas-green);
+}
+
+.form-group input[type="text"],
+.form-group input[type="tel"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.submit-btn, .cancel-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-btn {
+  background-color: var(--christmas-green);
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.spins-left {
+  font-size: 1.2rem;
+  background-color: var(--christmas-green);
+  color: var(--christmas-red);
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+
+
+

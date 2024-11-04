@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Quản lý danh sách người chơi</title>
+    <style>
+        body {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .admin-panel {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .download-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .login-form {
+            max-width: 300px;
+            margin: 100px auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginSection" class="login-form">
+        <h2>Đăng nhập Admin</h2>
+        <div class="form-group">
+            <input type="password" id="adminPassword" placeholder="Nhập mật khẩu admin">
+        </div>
+        <button onclick="checkPassword()" class="download-btn">Đăng nhập</button>
+    </div>
+
+    <div id="adminPanel" class="admin-panel" style="display: none;">
+        <div class="admin-header">
+            <h1>Quản lý danh sách người chơi</h1>
+            <button onclick="downloadUserData()" class="download-btn">Tải danh sách (CSV)</button>
+        </div>
+        <div id="userList"></div>
+    </div>
+
+    <script>
+        const ADMIN_PASSWORD = '123456'; // Thay đổi mật khẩu này
+
+        function checkPassword() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                loadUserList();
+            } else {
+                alert('Mật khẩu không đúng!');
+            }
+        }
+
+        function loadUserList() {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const userList = document.getElementById('userList');
+            
+            const table = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Họ và tên</th>
+                            <th>Giới tính</th>
+                            <th>Số điện thoại</th>
+                            <th>Thời gian đăng ký</th>
+                            <th>Phần thưởng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${users.map(user => `
+                            <tr>
+                                <td>${user.name}</td>
+                                <td>${user.gender}</td>
+                                <td>${user.phone}</td>
+                                <td>${new Date(user.timestamp).toLocaleString('vi-VN')}</td>
+                                <td>${user.reward}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            userList.innerHTML = table;
+        }
+
+        function downloadUserData() {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            const csvContent = [
+                ['Họ và tên', 'Giới tính', 'Số điện thoại', 'Thời gian đăng ký', 'Phần thưởng'],
+                ...users.map(user => [
+                    user.name,
+                    user.gender,
+                    user.phone,
+                    new Date(user.timestamp).toLocaleString('vi-VN'),
+                    user.reward
+                ])
+            ]
+            .map(row => row.join(','))
+            .join('\n');
+
+            const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', '@danh-sach-nguoi-choi.csv');
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html> 

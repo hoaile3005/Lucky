@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Quay số trúng thưởng Chamee</title>
+		<link rel="icon" href="./imgs/logo.png">
+		<link rel="stylesheet" href="./styles.css" />
+	</head>
+	<body>
+		<main>
+			<div class="background"></div>
+			<div class="snow-container"></div> <!-- Thêm container cho tuyết -->
+			<div class="fireworks-container"></div> 
+			<img src="./imgs/logo.png" alt="Logo" class="logo" />
+			<h1 class="curved-title" >Merry Lucky Spin</h1>
+			<section class="main">
+				<div class="spins-left">Số lượt quay còn lại: 0</div>
+				<span>
+					<ul class="wheel"></ul>
+				</span>
+				<button class="btn--wheel">Quay</button>
+			</section>
+			<h1 class="msg"></h1>
+		</main>
+		<div class="popup">
+			<div class="popup-content">
+				<h2>Chúc mừng!</h2>
+				<p class="popup-msg"></p>
+				<button class="close-popup">Thoát</button>
+			</div>
+		</div>
+		<div class="form-popup" id="userForm">
+			<div class="form-popup-content">
+				<h2>Đăng ký nhận lượt quay</h2>
+				<form id="registrationForm">
+					<div class="form-group">
+						<label for="name">Họ và tên:</label>
+						<input type="text" id="name" required>
+					</div>
+					<div class="form-group">
+						<label>Giới tính:</label>
+						<div class="radio-group">
+							<input type="radio" id="male" name="gender" value="nam" required>
+							<label for="male">Nam</label>
+							<input type="radio" id="female" name="gender" value="nữ">
+							<label for="female">Nữ</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="phone">Số điện thoại:</label>
+						<input type="tel" id="phone" pattern="[0-9]{10}" required>
+					</div>
+					<div class="form-buttons">
+						<button type="submit" class="submit-btn">Xác nhận</button>
+						<button type="button" class="cancel-btn" onclick="closeUserForm()">Hủy</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script src="./main.js"></script>
+	</body>
+</html>
